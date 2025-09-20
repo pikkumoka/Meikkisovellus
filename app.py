@@ -8,16 +8,36 @@ import db
 app = Flask(__name__)
 app.secret_key = config.secret_key
 
-#Etusivu
+#Homepage
 @app.route("/")
 def index():
     return render_template("index.html")
 
-#Rekisteröinti
+#New item
+@app.route("/new_item")
+def new_item():
+    return render_template("new_look.html")
+
+#Upload makeuplook
+@app.route("/create_look", methods=["POST"])
+def create_look():
+	title = request.form["title"]
+	descrption = request.form["description"]
+	makeup = request.form["makeup"]
+	user_id = session["user_id"]
+
+	sql = """INSERT INTO items (title, description, makeup, user_id)
+			VALUES (?, ?, ?, ?)"""
+	db.execute(sql, [title, descrption, makeup, user_id])
+
+	return redirect("/")
+
+#Registration
 @app.route("/register")
 def register():
     return render_template("register.html")
 
+#Create account
 @app.route("/create", methods=["POST"])
 def create():
     username = request.form["username"]
@@ -35,7 +55,7 @@ def create():
 
     return "Tunnus luotu"
 
-#Kirjautuminen
+#Login
 @app.route("/login", methods=["GET", "POST"])
 def login():
 	if request.method == "GET" :
@@ -45,16 +65,21 @@ def login():
 		username = request.form["username"]
 		password = request.form["password"]
 
-		sql = "SELECT password_hash FROM users WHERE username = ?"
-		password_hash = db.query(sql, [username])[0][0]
+		sql = "SELECT id, password_hash FROM users WHERE username = ?"
+		result = db.query(sql, [username])[0]
+		user_id = result["id"]
+		password_hash = result["password_hash"]
 
 		if check_password_hash(password_hash, password):
+			session["user_id"] = user_id
 			session["username"] = username
 			return redirect("/")
 		else:
 			return "VIRHE: väärä tunnus tai salasana"
 
+#Logout
 @app.route("/logout")
 def logout():
+    del session["user_id"]
     del session["username"]
     return redirect("/")

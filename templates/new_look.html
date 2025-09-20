@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Uusi ilmoitus</title>
+</head>
+
+<body>
+	<h1>Uusi lookki</h1>
+  <form action="/create_look" method="post">
+    <p>
+      Otsikko: <br />
+      <input type="text" name="title"/>
+    </p>
+    <p>
+    Kuvaus: <br /> 
+    <textarea name="description" rows="8" cols="60"></textarea>
+    </p>
+
+<!-- PLACEHOLDER FOR MAKEUP PRODUCTS, different inputs for eye, lip,
+face, etc products orr ? -->
+    <p>
+    Meikit: <br />
+    <input type="text" name="makeup" />    
+    </p>
+    <input type="submit" value="Luo lookki" />
+  </form>
+</body>
+
+</html>
