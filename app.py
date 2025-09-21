@@ -56,6 +56,20 @@ def update_look() :
 
 	return redirect("/look/" + str(look_id))
 
+#Remove look
+@app.route("/remove_look/<int:look_id>", methods=["GET", "POST"])
+def remove_look(look_id) :
+	if request.method == "GET" :
+		look = looks.get_look(look_id)
+		return render_template("remove_look.html", look=look)
+
+	if request.method == "POST" :
+		if "remove" in request.form :
+			looks.remove_look(look_id)
+			return redirect("/")
+		else :
+			return redirect("/look/" + str(look_id))
+
 #Registration
 @app.route("/register")
 def register() :

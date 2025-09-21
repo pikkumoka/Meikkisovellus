@@ -22,3 +22,8 @@ def update_look(look_id, title, description, makeup) :
 	sql = """UPDATE looks SET title = ?, description =?, makeup = ?
 			WHERE id = ?"""
 	db.execute(sql, [title, description, makeup, look_id])
+
+def remove_look(look_id) :
+	sql = """DELETE FROM looks
+			WHERE id = ?"""
+	db.execute(sql, [look_id])

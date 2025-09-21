@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Poista lookki</title>
+</head>
+
+<body>
+	<h1>Poista lookki</h1>
+    <p>Lookki - {{ look.title }}</p>
+    <p>Oletko varma lookin poistosta?</p>
+    <form action="/remove_look/{{ look.id }}" method="post">
+		<input type="submit" name="remove" value="Poista lookki">
+		<input type="submit" name="back" value="Palaa takaisin">
+    </form>
+</body>
+
+</html>

@@ -10,6 +10,7 @@
 	{% if session.user_id == look.user_id %}
 	<p>
 		<a href="/edit_look/{{ look.id }}">Muokkaa lookkiasi</a>
+		<a href="/remove_look/{{ look.id }}">Poista lookkisi</a>
 	</p>
 		{% endif %}
 
