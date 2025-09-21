@@ -9,7 +9,7 @@
 	<h1>Meikkilookit</h1>
   {% if session.username %}
   <p>
-    Olet kirjautunut nimellä {{ session.username }}, id-numerosi on {{ session.user_id }}
+    Tervetuloa {{ session.username }}, id-numerosi on {{ session.user_id }}
   </p>
   {% endif %}
 
@@ -20,7 +20,7 @@
   </p>
 
   <p>
-	<a href="/new_item">Uusi ilmoitus</a>
+	<a href="/new_item">Luo uusi lookki</a>
   </p>
 
   <h2>Julkaistut lookit</h2>

@@ -11,13 +11,13 @@ app.secret_key = config.secret_key
 
 #Homepage
 @app.route("/")
-def index():
+def index() :
 	all_looks = looks.get_looks()
 	return render_template("index.html", looks=all_looks)
 
 #See looks
 @app.route("/look/<int:look_id>")
-def get_look(look_id):
+def get_look(look_id) :
 	look = looks.get_look(look_id)
 	return render_template("show_look.html", look=look)
 
@@ -38,14 +38,32 @@ def create_look():
 
 	return redirect("/")
 
+#Edit look
+@app.route("/edit_look/<int:look_id>")
+def edit_look(look_id) :
+	look = looks.get_look(look_id)
+	return render_template("edit_look.html", look=look)
+
+#Upload updated makeuplook
+@app.route("/update_look", methods=["POST"])
+def update_look() :
+	look_id = request.form["look_id"]
+	title = request.form["title"]
+	description = request.form["description"]
+	makeup = request.form["makeup"]
+
+	looks.update_look(look_id, title, description, makeup)
+
+	return redirect("/look/" + str(look_id))
+
 #Registration
 @app.route("/register")
-def register():
+def register() :
     return render_template("register.html")
 
 #Create account
 @app.route("/create", methods=["POST"])
-def create():
+def create() :
     username = request.form["username"]
     password1 = request.form["password1"]
     password2 = request.form["password2"]
@@ -63,7 +81,7 @@ def create():
 
 #Login
 @app.route("/login", methods=["GET", "POST"])
-def login():
+def login() :
 	if request.method == "GET" :
 		return render_template("login.html")
 
@@ -85,7 +103,7 @@ def login():
 
 #Logout
 @app.route("/logout")
-def logout():
+def logout() :
     del session["user_id"]
     del session["username"]
     return redirect("/")

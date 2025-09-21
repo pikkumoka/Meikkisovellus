@@ -7,6 +7,12 @@
 
 <body>
 	<h1>{{ look.title }}</h1>
+	{% if session.user_id == look.user_id %}
+	<p>
+		<a href="/edit_look/{{ look.id }}">Muokkaa lookkiasi</a>
+	</p>
+		{% endif %}
+
 	<p>
 		{{ look.description }}
 	</p>

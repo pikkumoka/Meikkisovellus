@@ -12,8 +12,13 @@ def get_looks() :
 	return db.query(sql)
 
 def get_look(look_id) :
-	sql = """SELECT l.title, l.description, l.makeup, u.username
+	sql = """SELECT l.id, l.title, l.description, l.makeup, u.id user_id, u.username
 			FROM looks l, users u
 			WHERE l.user_id = u.id AND
 				l.id = ?"""
 	return db.query(sql, [look_id])[0]
+
+def update_look(look_id, title, description, makeup) :
+	sql = """UPDATE looks SET title = ?, description =?, makeup = ?
+			WHERE id = ?"""
+	db.execute(sql, [title, description, makeup, look_id])
