@@ -12,11 +12,18 @@ app.secret_key = config.secret_key
 #Homepage
 @app.route("/")
 def index():
-    return render_template("index.html")
+	all_looks = looks.get_looks()
+	return render_template("index.html", looks=all_looks)
 
-#New item
-@app.route("/new_item")
-def new_item():
+#See looks
+@app.route("/look/<int:look_id>")
+def get_look(look_id):
+	look = looks.get_look(look_id)
+	return render_template("show_look.html", look=look)
+
+#New look
+@app.route("/new_look")
+def new_look():
     return render_template("new_look.html")
 
 #Upload makeuplook

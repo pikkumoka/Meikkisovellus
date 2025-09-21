@@ -23,6 +23,13 @@
 	<a href="/new_item">Uusi ilmoitus</a>
   </p>
 
+  <h2>Julkaistut lookit</h2>
+  <ul>
+  {% for look in looks %}
+  <li><a href="/look/{{ look.id }}">{{ look.title }}</a></li>
+  {% endfor %}
+  </ul>
+
 </body>
 
 </html>

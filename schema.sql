@@ -4,7 +4,7 @@ CREATE TABLE users (
     password_hash TEXT
 );
 
-CREATE TABLE items (
+CREATE TABLE looks (
 	id INTEGER PRIMARY  KEY,
 	title TEXT,
 	description TEXT,
