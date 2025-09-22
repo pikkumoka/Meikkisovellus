@@ -13,21 +13,23 @@ Nettisivu meikkilookkien jakamiseen ja arvosteluun.
     
 Tässä pääasiallinen tietokohde on meikkilookit ja toissijainen tietokohde on komentti lookkeihin.
 
-Asennusohje: Luo virtuaaliympäristö:
 
-python3 -m venv venv
-Aktivoi virtuaaliympäristö:
+## Sovelluksen asennus
 
-Windows:
-venv\Scripts\activate
-Mac/Linux:
-source venv/bin/activate
-Asenna tarvittavat Python-kirjastot:
+Asenna `flask`-kirjasto:
 
-pip install flask
-Luo tietokannan taulut, sovelluksessa käytetään SQLite-tietokantaa. Luo tietokannan taulut ajamalla seuraava komento:
+```
+$ pip install flask
+```
 
-python app.py
-Suorita sovellus. Kun kaikki on asetettu, voit käynnistää sovelluksen seuraavalla komennolla:
+Luo tietokannan taulut:
 
-flask run
+```
+$ sqlite3 database.db < schema.sql
+```
+
+Voit käynnistää sovelluksen näin:
+
+```
+$ flask run
+```
