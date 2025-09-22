@@ -12,3 +12,22 @@ Nettisivu meikkilookkien jakamiseen ja arvosteluun.
 - Käyttäjä pystyy antaa lookeille kommentteja ja vaikeusasteen.  Lookeissa näytetään kommentit sekä vaikeusaste.
     
 Tässä pääasiallinen tietokohde on meikkilookit ja toissijainen tietokohde on komentti lookkeihin.
+
+Asennusohje: Luo virtuaaliympäristö:
+
+python3 -m venv venv
+Aktivoi virtuaaliympäristö:
+
+Windows:
+venv\Scripts\activate
+Mac/Linux:
+source venv/bin/activate
+Asenna tarvittavat Python-kirjastot:
+
+pip install flask
+Luo tietokannan taulut, sovelluksessa käytetään SQLite-tietokantaa. Luo tietokannan taulut ajamalla seuraava komento:
+
+python app.py
+Suorita sovellus. Kun kaikki on asetettu, voit käynnistää sovelluksen seuraavalla komennolla:
+
+flask run
