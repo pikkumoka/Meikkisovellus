@@ -1,6 +1,6 @@
 import sqlite3
 from flask import Flask
-from flask import redirect, render_template, request, session
+from flask import abort, redirect, render_template, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
 import config
 import db
@@ -53,12 +53,18 @@ def create_look():
 @app.route("/edit_look/<int:look_id>")
 def edit_look(look_id) :
 	look = looks.get_look(look_id)
+	if look["user_id"] != session["user_id"] :
+		abort(403)
 	return render_template("edit_look.html", look=look)
 
 #Upload updated makeuplook
 @app.route("/update_look", methods=["POST"])
 def update_look() :
 	look_id = request.form["look_id"]
+	look = looks.g et_look(look_id)
+	if look["user_id"] != session["user_id"] :
+		abort(403)
+
 	title = request.form["title"]
 	description = request.form["description"]
 	makeup = request.form["makeup"]
@@ -70,6 +76,11 @@ def update_look() :
 #Remove look
 @app.route("/remove_look/<int:look_id>", methods=["GET", "POST"])
 def remove_look(look_id) :
+	look = looks.get_look(look_id)
+	
+	if look["user_id"] != session["user_id"] :
+		abort(403)
+		
 	if request.method == "GET" :
 		look = looks.get_look(look_id)
 		return render_template("remove_look.html", look=look)
