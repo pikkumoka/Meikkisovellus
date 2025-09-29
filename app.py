@@ -20,6 +20,17 @@ def index() :
 def get_look(look_id) :
 	look = looks.get_look(look_id)
 	return render_template("show_look.html", look=look)
+	
+#Find looks
+@app.route("/find_look")
+def find_look():
+    query = request.args.get("query")
+    if query:
+        results = looks.find_looks(query)
+    else:
+        query = ""
+        results = []
+    return render_template("find_look.html", query=query, results=results)
 
 #New look
 @app.route("/new_look")

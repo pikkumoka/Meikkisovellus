@@ -27,3 +27,11 @@ def remove_look(look_id) :
 	sql = """DELETE FROM looks
 			WHERE id = ?"""
 	db.execute(sql, [look_id])
+
+def find_looks(query) :
+	sql = """SELECT id, title
+			FROM looks
+			WHERE description LIKE ? OR title LIKE ?
+			ORDER BY id DESC"""
+	like = "%" + query + "%"
+	return db.query(sql, [like, like])

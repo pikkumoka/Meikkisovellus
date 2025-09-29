@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Etsi lookkia</title>
+</head>
+
+<body>
+	<h1>Etsi lookkia</h1>
+
+	<form action="/find_look" method="get">
+		<p>
+			Hakusana : <input type="text" name="query" value="{{ query }}">
+		</p>
+		<input type="submit" value="Etsi">
+	</form>
+	
+	<p>
+	<a href="/">Takaisin</a>
+	</p>
+	
+	{% if query %}
+	<h2>Lookit</h2>
+	
+	<ul>
+		{% for look in results %}
+		<li><a href="/look/{{ look.id }}">{{ look.title }}</a></li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+
+</body>
+
+</html>
