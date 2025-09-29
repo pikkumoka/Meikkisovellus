@@ -12,3 +12,24 @@ Nettisivu meikkilookkien jakamiseen ja arvosteluun.
 - Käyttäjä pystyy antaa lookeille kommentteja ja vaikeusasteen.  Lookeissa näytetään kommentit sekä vaikeusaste.
     
 Tässä pääasiallinen tietokohde on meikkilookit ja toissijainen tietokohde on komentti lookkeihin.
+
+
+## Sovelluksen asennus
+
+Asenna `flask`-kirjasto:
+
+```
+$ pip install flask
+```
+
+Luo tietokannan taulut:
+
+```
+$ sqlite3 database.db < schema.sql
+```
+
+Voit käynnistää sovelluksen näin:
+
+```
+$ flask run
+```
