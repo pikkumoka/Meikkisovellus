@@ -19,6 +19,8 @@ def index() :
 @app.route("/look/<int:look_id>")
 def get_look(look_id) :
 	look = looks.get_look(look_id)
+	if not look :
+		abort(404)
 	return render_template("show_look.html", look=look)
 	
 #Find looks
@@ -53,6 +55,8 @@ def create_look():
 @app.route("/edit_look/<int:look_id>")
 def edit_look(look_id) :
 	look = looks.get_look(look_id)
+	if not look :
+		abort(404)
 	if look["user_id"] != session["user_id"] :
 		abort(403)
 	return render_template("edit_look.html", look=look)
@@ -61,7 +65,9 @@ def edit_look(look_id) :
 @app.route("/update_look", methods=["POST"])
 def update_look() :
 	look_id = request.form["look_id"]
-	look = looks.g et_look(look_id)
+	look = looks.get_look(look_id)
+	if not look :
+		abort(404)
 	if look["user_id"] != session["user_id"] :
 		abort(403)
 
@@ -77,7 +83,8 @@ def update_look() :
 @app.route("/remove_look/<int:look_id>", methods=["GET", "POST"])
 def remove_look(look_id) :
 	look = looks.get_look(look_id)
-	
+	if not look :
+		abort(404)
 	if look["user_id"] != session["user_id"] :
 		abort(403)
 		

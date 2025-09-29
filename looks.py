@@ -16,7 +16,8 @@ def get_look(look_id) :
 			FROM looks l, users u
 			WHERE l.user_id = u.id AND
 				l.id = ?"""
-	return db.query(sql, [look_id])[0]
+	result =  db.query(sql, [look_id])
+	return result[0] if result else None
 
 def update_look(look_id, title, description, makeup) :
 	sql = """UPDATE looks SET title = ?, description =?, makeup = ?
