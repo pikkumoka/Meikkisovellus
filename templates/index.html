@@ -11,16 +11,21 @@
   <p>
     Tervetuloa {{ session.username }}, id-numerosi on {{ session.user_id }}
   </p>
-  {% endif %}
-
-  <p>
-	  <a href="/register">Luo tunnus</a>
-	  <a href="/login">Kirjuadu sisään</a>
+    <p>
 	  <a href="/logout">Kirjaudu ulos</a>
   </p>
 
   <p>
 	<a href="/new_look">Luo uusi lookki</a>
+  </p>
+  {% else %}
+    <p>
+	  <a href="/register">Luo tunnus</a>
+	  <a href="/login">Kirjaudu sisään</a>
+  </p>
+  {% endif %}
+
+  <p>
 	<a href="/find_look">Hae lookkia</a>
   </p>
 

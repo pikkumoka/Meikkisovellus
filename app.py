@@ -9,6 +9,10 @@ import looks
 app = Flask(__name__)
 app.secret_key = config.secret_key
 
+def require_login() :
+	if "user_id" not in session :
+		abort(403)
+
 #Homepage
 @app.route("/")
 def index() :
@@ -25,7 +29,7 @@ def get_look(look_id) :
 	
 #Find looks
 @app.route("/find_look")
-def find_look():
+def find_look() :
     query = request.args.get("query")
     if query:
         results = looks.find_looks(query)
@@ -36,12 +40,15 @@ def find_look():
 
 #New look
 @app.route("/new_look")
-def new_look():
-    return render_template("new_look.html")
+def new_look() :
+	require_login()
+	return render_template("new_item.html")
 
 #Upload makeuplook
 @app.route("/create_look", methods=["POST"])
-def create_look():
+def create_look() :
+	require_login()
+
 	title = request.form["title"]
 	description = request.form["description"]
 	makeup = request.form["makeup"]
@@ -54,6 +61,7 @@ def create_look():
 #Edit look
 @app.route("/edit_look/<int:look_id>")
 def edit_look(look_id) :
+	require_login()
 	look = looks.get_look(look_id)
 	if not look :
 		abort(404)
@@ -64,6 +72,7 @@ def edit_look(look_id) :
 #Upload updated makeuplook
 @app.route("/update_look", methods=["POST"])
 def update_look() :
+	require_login()
 	look_id = request.form["look_id"]
 	look = looks.get_look(look_id)
 	if not look :
@@ -82,6 +91,7 @@ def update_look() :
 #Remove look
 @app.route("/remove_look/<int:look_id>", methods=["GET", "POST"])
 def remove_look(look_id) :
+	require_login()
 	look = looks.get_look(look_id)
 	if not look :
 		abort(404)
@@ -147,6 +157,7 @@ def login() :
 #Logout
 @app.route("/logout")
 def logout() :
-    del session["user_id"]
-    del session["username"]
-    return redirect("/")
+	if "user_id" in session :
+		del session["user_id"]
+		del session["username"]
+	return redirect("/")
