@@ -42,7 +42,7 @@ def find_look() :
 @app.route("/new_look")
 def new_look() :
 	require_login()
-	return render_template("new_item.html")
+	return render_template("new_look.html")
 
 #Upload makeuplook
 @app.route("/create_look", methods=["POST"])
@@ -50,7 +50,11 @@ def create_look() :
 	require_login()
 
 	title = request.form["title"]
+	if not title or len(title) > 50 :
+		abort(403)
 	description = request.form["description"]
+	if len(description) > 1000 :
+		abort(403)
 	makeup = request.form["makeup"]
 	user_id = session["user_id"]
 
@@ -81,7 +85,11 @@ def update_look() :
 		abort(403)
 
 	title = request.form["title"]
+	if not title or len(title) > 50 :
+		abort(403)
 	description = request.form["description"]
+	if len(description) > 1000 :
+		abort(403)
 	makeup = request.form["makeup"]
 
 	looks.update_look(look_id, title, description, makeup)
