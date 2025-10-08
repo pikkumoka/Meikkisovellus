@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Meikkiartisti {{ user.username }}</title>
+</head>
+
+<body>
+	<h1>Meikkiartisti {{ user.username }}</h1>
+	<p>
+		Yhteensä {{ looks | count }} julkaistua lookkia
+	</p>
+	<h2>Julkaistut lookit</h2>
+	<ul>
+		{% for look in looks %}
+		<li><a href="/look/{{ look.id }}">{{ look.title }}</a></li>
+		{% endfor %}
+	</ul>
+
+	<p>
+		<a href="/">Etusivulle</a>
+	</p>
+</body>
+
+</html>
