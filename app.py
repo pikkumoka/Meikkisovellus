@@ -34,7 +34,9 @@ def get_look(look_id) :
 	look = looks.get_look(look_id)
 	if not look :
 		abort(404)
-	return render_template("show_look.html", look=look)
+	classes = looks.get_classes(look_id)
+
+	return render_template("show_look.html", look=look, classes=classes)
 	
 #Find looks
 @app.route("/find_look")
@@ -67,7 +69,15 @@ def create_look() :
 	makeup = request.form["makeup"]
 	user_id = session["user_id"]
 
-	looks.add_look(title, description, makeup, user_id)
+	classes = []
+	category = request.form["category"]
+	if category :
+		classes.append(("Kategoria", category))
+	difficulty = request.form["difficulty"]
+	if difficulty :
+		classes.append(("Vaikeusaste", difficulty))
+
+	looks.add_look(title, description, makeup, user_id, classes)
 
 	return redirect("/")
 

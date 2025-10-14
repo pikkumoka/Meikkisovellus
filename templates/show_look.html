@@ -13,10 +13,19 @@
 		<a href="/remove_look/{{ look.id }}">Poista lookkisi</a>
 	</p>
 		{% endif %}
-
+	{% if classes %}
+	<p>
+		<ul>
+			{% for class in classes %}
+			<li>{{ class.title }} - {{ class.value }}</li>
+			{% endfor %}
+		</ul>
+	</p>
+	{% endif %}
 	<p>
 		{{ look.description }}
 	</p>
+
 	<p>
 		Käytetyt meikit - {{ look.makeup }}
 	</p>

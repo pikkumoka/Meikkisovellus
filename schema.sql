@@ -11,3 +11,10 @@ CREATE TABLE looks (
 	makeup TEXT,
 	user_id INTEGER REFERENCES users
 );
+
+CREATE TABLE look_classes (
+	id INTEGER PRIMARY  KEY,
+	look_id INTEGER REFERENCES looks,
+	title TEXT,
+	value TEXT
+);

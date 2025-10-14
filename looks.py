@@ -1,9 +1,22 @@
 import db
 
-def add_look(title, description, makeup, user_id) :
+def add_look(title, description, makeup, user_id, classes) :
 	sql = """INSERT INTO looks (title, description, makeup, user_id)
 			VALUES (?, ?, ?, ?)"""
 	db.execute(sql, [title, description, makeup, user_id])
+
+	look_id = db.last_insert_id()
+
+	sql = """INSERT INTO look_classes (look_id, title, value)
+	VALUES(?, ?, ?)"""
+	for  title, value in classes :
+		db.execute(sql, [look_id, title, value])
+
+def get_classes(look_id) :
+	sql = """SELECT title, value
+			FROM look_classes
+			WHERE look_id = ?"""
+	return db.query(sql, [look_id])
 
 def get_looks() :
 	sql = """SELECT id, title
