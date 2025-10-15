@@ -70,11 +70,16 @@ def create_look() :
 	makeup = request.form["makeup"]
 	user_id = session["user_id"]
 
+	all_classes = looks.get_all_classes()
 	classes = []
 	for entry in request.form.getlist("classes") :
 		if entry :
-			parts = entry.split(":")
-			classes.append((parts[0], parts[1]))
+			class_title, class_value = entry.split(":")
+			if class_title not in all_classes :
+				abort(403)
+			if class_value not in all_classes[class_title] :
+				abort(403)
+			classes.append((class_title, class_value))
 
 	looks.add_look(title, description, makeup, user_id, classes)
 
@@ -119,11 +124,16 @@ def update_look() :
 		abort(403)
 	makeup = request.form["makeup"]
 
+	all_classes = looks.get_all_classes()
 	classes = []
 	for entry in request.form.getlist("classes") :
 		if entry :
-			parts = entry.split(":")
-			classes.append((parts[0], parts[1]))
+			class_title, class_value = entry.split(":")
+			if class_title not in all_classes :
+				abort(403)
+			if class_value not in all_classes[class_title] :
+				abort(403)
+			classes.append((class_title, class_value))
 
 	looks.update_look(look_id, title, description, makeup, classes)
 
