@@ -53,7 +53,8 @@ def find_look() :
 @app.route("/new_look")
 def new_look() :
 	require_login()
-	return render_template("new_look.html")
+	classes = looks.get_all_classes()
+	return render_template("new_look.html", classes=classes)
 
 #Upload makeuplook
 @app.route("/create_look", methods=["POST"])
@@ -70,12 +71,10 @@ def create_look() :
 	user_id = session["user_id"]
 
 	classes = []
-	category = request.form["category"]
-	if category :
-		classes.append(("Kategoria", category))
-	difficulty = request.form["difficulty"]
-	if difficulty :
-		classes.append(("Vaikeusaste", difficulty))
+	for entry in request.form.getlist("classes") :
+		if entry :
+			parts = entry.split(":")
+			classes.append((parts[0], parts[1]))
 
 	looks.add_look(title, description, makeup, user_id, classes)
 

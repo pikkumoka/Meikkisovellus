@@ -12,6 +12,12 @@ CREATE TABLE looks (
 	user_id INTEGER REFERENCES users
 );
 
+CREATE TABLE classes (
+	id INTEGER PRIMARY KEY,
+	title TEXT,
+	value TEXT
+);
+
 CREATE TABLE look_classes (
 	id INTEGER PRIMARY  KEY,
 	look_id INTEGER REFERENCES looks,

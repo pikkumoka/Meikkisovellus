@@ -12,27 +12,17 @@
       Otsikko: <br />
       <input type="text" name="title" maxlength="50" required />
     </p>
+    {% for class in classes %}
     <p>
-		Kategoria : <br />
-		<select name="category">
+		{{ class }}: <br />
+		<select name="classes">
 			<option value="">valitse</option>
-			<option value="arkimeikki">arkimeikki</option>
-			<option value="juhlameikki">juhlameikki</option>
-			<option value="maskeeraus">maskeeraus</option>
-			<option value="muu">muu</option>
+		{% for option in classes[class] %}
+			<option value={{ class }}:{{ option }}>{{ option }}</option>
+		{% endfor %}
 		</select>
     </p>
-    <p>
-		Vaikeusaste : <br />
-		<select name="difficulty">
-			<option value="">0</option>
-			<option value="1">1</option>
-			<option value="2">2</option>
-			<option value="3">3</option>
-			<option value="4">4</option>
-			<option value="5">5</option>
-		</select>
-    </p>
+    {% endfor %}
     <p>
     Kuvaus: <br /> 
     <textarea name="description" rows="8" cols="60" maxlength="1000"></textarea>
