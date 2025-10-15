@@ -58,8 +58,10 @@ def update_look(look_id, title, description, makeup, classes) :
 		db.execute(sql, [look_id, title, value])
 
 def remove_look(look_id) :
-	sql = """DELETE FROM looks
-			WHERE id = ?"""
+	sql = "DELETE FROM look_classes WHERE look_id = ?"
+	db.execute(sql, [look_id])
+
+	sql = "DELETE FROM looks WHERE id = ?"
 	db.execute(sql, [look_id])
 
 def find_looks(query) :
