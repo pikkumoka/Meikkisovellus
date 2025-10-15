@@ -44,10 +44,18 @@ def get_look(look_id) :
 	result =  db.query(sql, [look_id])
 	return result[0] if result else None
 
-def update_look(look_id, title, description, makeup) :
+def update_look(look_id, title, description, makeup, classes) :
 	sql = """UPDATE looks SET title = ?, description =?, makeup = ?
 			WHERE id = ?"""
 	db.execute(sql, [title, description, makeup, look_id])
+
+	sql = "DELETE FROM look_classes WHERE look_id = ?"
+	db.execute(sql, [look_id])
+
+	sql = """INSERT INTO look_classes (look_id, title, value)
+	VALUES(?, ?, ?)"""
+	for  title, value in classes :
+		db.execute(sql, [look_id, title, value])
 
 def remove_look(look_id) :
 	sql = """DELETE FROM looks

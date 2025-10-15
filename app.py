@@ -89,7 +89,16 @@ def edit_look(look_id) :
 		abort(404)
 	if look["user_id"] != session["user_id"] :
 		abort(403)
-	return render_template("edit_look.html", look=look)
+
+	all_classes = looks.get_all_classes()
+	classes = {}
+	for my_class in all_classes :
+		classes[my_class] = ""
+	for entry in looks.get_classes(look_id) :
+		classes[entry["title"]] = entry["value"]
+
+	return render_template("edit_look.html", look=look, classes=classes,
+	all_classes=all_classes)
 
 #Upload updated makeuplook
 @app.route("/update_look", methods=["POST"])
@@ -110,7 +119,13 @@ def update_look() :
 		abort(403)
 	makeup = request.form["makeup"]
 
-	looks.update_look(look_id, title, description, makeup)
+	classes = []
+	for entry in request.form.getlist("classes") :
+		if entry :
+			parts = entry.split(":")
+			classes.append((parts[0], parts[1]))
+
+	looks.update_look(look_id, title, description, makeup, classes)
 
 	return redirect("/look/" + str(look_id))
 
