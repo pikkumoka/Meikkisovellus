@@ -1,6 +1,6 @@
 import sqlite3
 from flask import Flask
-from flask import abort, redirect, render_template, request, session
+from flask import abort, redirect, render_template, request, session, flash
 import config
 import db
 import looks
@@ -37,7 +37,7 @@ def get_look(look_id) :
 	classes = looks.get_classes(look_id)
 
 	return render_template("show_look.html", look=look, classes=classes)
-	
+
 #Find looks
 @app.route("/find_look")
 def find_look() :
@@ -148,7 +148,7 @@ def remove_look(look_id) :
 		abort(404)
 	if look["user_id"] != session["user_id"] :
 		abort(403)
-		
+
 	if request.method == "GET" :
 		look = looks.get_look(look_id)
 		return render_template("remove_look.html", look=look)
@@ -171,15 +171,18 @@ def create() :
 	username = request.form["username"]
 	password1 = request.form["password1"]
 	password2 = request.form["password2"]
-	if password1 != password2:
-		return "VIRHE: salasanat eivät ole samat"
+	if password1 != password2 :
+		flash("Salasanat eivät täsmää, kokeile uudestaan")
+		return redirect("/register")
 
 	try :
 		users.create_user(username, password1)
 	except sqlite3.IntegrityError:
-		return "VIRHE: tunnus on jo varattu"
+		flash("Tunnus on jo varattu, valitse toinen nimi")
+		return redirect("/register")
 
-	return "Tunnus luotu"
+	flash("Tunnus luotu, kirjaudu sisään")
+	return redirect("/login")
 
 #Login
 @app.route("/login", methods=["GET", "POST"])
@@ -197,7 +200,8 @@ def login() :
 			session["username"] = username
 			return redirect("/")
 		else:
-			return "VIRHE: väärä tunnus tai salasana"
+			flash("Väärä tunnus tai salasana, yritä uudestaan")
+			return redirect("/login")
 
 #Logout
 @app.route("/logout")

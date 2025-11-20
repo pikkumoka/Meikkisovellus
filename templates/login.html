@@ -14,6 +14,14 @@
     <a href="/logout">Kirjaudu ulos</a>
   </p>
   {% else %}
+
+    <br/>
+    {% for message in get_flashed_messages() %}
+    {% if loop.first %}
+    {% endif %}
+    {{ message }}
+    {% endfor %}
+
   <form action="/login" method="post">
     <p>
       Tunnus: <br />
@@ -26,6 +34,7 @@
     <input type="submit" value="Kirjaudu" />
   </form>
   {% endif %}
+
 </body>
 
 </html>

@@ -19,11 +19,20 @@
       Salasana uudestaan: <br />
       <input type="password" name="password2" />
     </p>
-    <input type="submit" value="Luo tunnus" />
+    <input type="submit" value="Luo tunnus" href="/login"/>
   </form>
 	<p>
 		<a href="/">Etusivulle</a>
 	</p>
+
+  <br/>
+    {% for message in get_flashed_messages() %}
+    {% if loop.first %}
+    <div class="info">
+    {% endif %}
+    {{ message }}
+    {% endfor %}
+
 </body>
 
 </html>
