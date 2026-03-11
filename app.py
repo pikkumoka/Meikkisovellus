@@ -1,6 +1,6 @@
 import sqlite3
 from flask import Flask
-from flask import abort, redirect, render_template, request, session, flash
+from flask import abort, make_response, redirect, render_template, request, session, flash
 import config
 import db
 import looks
@@ -35,8 +35,57 @@ def get_look(look_id) :
 	if not look :
 		abort(404)
 	classes = looks.get_classes(look_id)
+	images=looks.get_images(look_id)
 
-	return render_template("show_look.html", look=look, classes=classes)
+	return render_template("show_look.html", look=look, classes=classes, images=images)
+
+#Show look images
+@app.route("/image/<int:image_id>")
+def show_image(image_id):
+    image = looks.get_image(image_id)
+    if not image:
+        abort(404)
+
+    response = make_response(bytes(image))
+    response.headers.set("Content-Type", "image/jpg")
+    return response
+
+#Edit images
+@app.route("/images/<int:look_id>")
+def edit_images(look_id) :
+	require_login()
+	look = looks.get_look(look_id)
+	if not look :
+		abort(404)
+	if look["user_id"] != session["user_id"] :
+		abort(403)
+
+	images = looks.get_images(look_id)
+
+	return render_template("images.html", look=look, images=images)
+
+#Add images
+@app.route("/add_image", methods=["POST"])
+def add_images():
+	require_login()
+
+	look_id = request.form["look_id"]
+	look = looks.get_look(look_id)
+	if not look :
+		abort(404)
+	if look["user_id"] != session["user_id"] :
+		abort(403)
+
+	file = request.files["image"]
+	if not file.filename.endswith(".jpg"):
+		return "VIRHE: väärä tiedostomuoto"
+
+	image = file.read()
+	if len(image) > 100 * 1024:
+		return "VIRHE: liian suuri kuva"
+
+	looks.add_image(look_id, image)
+	return redirect("/images/" + str(look_id))
 
 #Find looks
 @app.route("/find_look")

@@ -71,3 +71,16 @@ def find_looks(query) :
 			ORDER BY id DESC"""
 	like = "%" + query + "%"
 	return db.query(sql, [like, like])
+
+def get_images(look_id) :
+	sql = "SELECT id FROM images WHERE look_id = ?"
+	return db.query(sql, [look_id])
+
+def get_image(image_id) :
+	sql = "SELECT image FROM images WHERE id = ?"
+	result = db.query(sql, [image_id])
+	return result[0][0] if result else None
+
+def add_image(look_id, image) :
+    sql = "INSERT INTO images (look_id, image) VALUES (?, ?)"
+    db.execute(sql, [look_id, image])

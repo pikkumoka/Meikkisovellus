@@ -5,7 +5,7 @@ CREATE TABLE users (
 );
 
 CREATE TABLE looks (
-	id INTEGER PRIMARY  KEY,
+	id INTEGER PRIMARY KEY,
 	title TEXT,
 	description TEXT,
 	makeup TEXT,
@@ -19,8 +19,14 @@ CREATE TABLE classes (
 );
 
 CREATE TABLE look_classes (
-	id INTEGER PRIMARY  KEY,
+	id INTEGER PRIMARY KEY,
 	look_id INTEGER REFERENCES looks,
 	title TEXT,
 	value TEXT
+);
+
+CREATE TABLE images (
+	id INTEGER PRIMARY KEY,
+	look_id INTEGER REFERENCES looks,
+	image BLOB
 );

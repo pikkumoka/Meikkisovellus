@@ -11,8 +11,18 @@
 	<p>
 		<a href="/edit_look/{{ look.id }}">Muokkaa lookkiasi</a>
 		<a href="/remove_look/{{ look.id }}">Poista lookkisi</a>
+		<a href="/images/{{ look.id }}">Look</a>
 	</p>
-		{% endif %}
+	{% endif %}
+	
+	{% for image in images %}
+	<img src="/image/{{ image.id }}" />
+	{% endfor %}
+
+	<p>
+		{{ look.description }}
+	</p>
+
 	{% if classes %}
 	<p>
 		<ul>
@@ -22,13 +32,11 @@
 		</ul>
 	</p>
 	{% endif %}
-	<p>
-		{{ look.description }}
-	</p>
-
+	{% if look.makeup %}
 	<p>
 		Käytetyt meikit - {{ look.makeup }}
 	</p>
+	{% endif %}
 	<p>
 		Meikkiartisti - <a href="/user/{{ look.user_id }}">
 		{{ look.username }}</a>

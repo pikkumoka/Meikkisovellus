@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>{{ look.title }}:n kuvat</title>
+</head>
+
+<body>
+	<h1>{{ look.title }}</h1>
+	
+		<p>
+		Lookki sisältää {{ images | count }} kuvaa.
+	</p>
+	
+	<h2>Lisää uusi kuva</h2>
+  <form action="/add_image" method="post" enctype="multipart/form-data">
+    <p>
+      Kuva: <input type="file" name="image" accept=".jpg" />
+    </p>
+    <input type="hidden" name="look_id" value="{{ look.id }}">
+    <input type="submit" value="Lähetä" />
+  </form>
+	
+	<p>
+		<a href="look/">Lookkiin</a>
+	</p>
+</body>
+
+</html>
