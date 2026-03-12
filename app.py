@@ -87,6 +87,23 @@ def add_images():
 	looks.add_image(look_id, image)
 	return redirect("/images/" + str(look_id))
 
+#Remove image
+@app.route("/remove_images", methods=["POST"])
+def remove_images():
+	require_login()
+
+	look_id = request.form["look_id"]
+	look = looks.get_look(look_id)
+	if not look :
+		abort(404)
+	if look["user_id"] != session["user_id"] :
+		abort(403)
+
+	for image_id in request.form.getlist("image_id") :
+		looks.remove_image(look_id, image_id)
+
+	return redirect("/images/" + str(look_id))
+
 #Find looks
 @app.route("/find_look")
 def find_look() :
