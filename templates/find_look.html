@@ -1,34 +1,25 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Etsi lookkia</title>
-</head>
+{% block title %}Etsi lookkeja{% endblock %}
 
-<body>
-	<h1>Etsi lookkia</h1>
+{% block content %}
 
-	<form action="/find_look" method="get">
-		<p>
-			Hakusana : <input type="text" name="query" value="{{ query }}">
-		</p>
-		<input type="submit" value="Etsi">
-	</form>
-	
+<h2>Etsi lookkia</h2>
+
+<form action="/find_look" method="get">
 	<p>
-	<a href="/">Takaisin</a>
+		Hakusana : <input type="text" name="query" value="{{ query }}">
 	</p>
-	
-	{% if query %}
-	<h2>Lookit</h2>
-	
-	<ul>
-		{% for look in results %}
-		<li><a href="/look/{{ look.id }}">{{ look.title }}</a></li>
-		{% endfor %}
-	</ul>
-	{% endif %}
+	<input type="submit" value="Etsi">
+</form>
 
-</body>
+{% if query %}
+<h2>Lookit</h2>
 
-</html>
+<ul>
+	{% for look in results %}
+	<li><a href="/look/{{ look.id }}">{{ look.title }}</a></li>
+	{% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

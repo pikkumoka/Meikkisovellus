@@ -1,18 +1,15 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Poista lookki</title>
-</head>
+{% block title %}Lookin poisto{% endblock %}
 
-<body>
-	<h1>Poista lookki</h1>
-    <p>Lookki - {{ look.title }}</p>
-    <p>Oletko varma lookin poistosta?</p>
-    <form action="/remove_look/{{ look.id }}" method="post">
-		<input type="submit" name="remove" value="Poista lookki">
-		<input type="submit" name="back" value="Palaa takaisin">
-    </form>
-</body>
+{% block content %}
 
-</html>
+<h2>Oletko varma lookin poistosta?</h2>
+  <p><b>Lookki -</b> {{ look.title }}</p>
+  <p>Et voi perua tätä toimintoa.</p>
+  <form action="/remove_look/{{ look.id }}" method="post">
+  <input type="submit" name="remove" value="Poista lookki">
+  <input type="submit" name="back" value="Palaa takaisin">
+  </form>
+
+{% endblock %}

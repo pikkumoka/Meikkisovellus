@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>{% block title %}{% endblock %}</title>
+</head>
+
+<body>
+    <h1>Bämätoimisto</h1>
+
+  <p>
+    <a href="/">Etusivulle</a> |
+    <a href="/find_look">Hae lookkeja</a>
+
+    {% if session.user_id %}
+      | <a href="/new_look">Jaa uusi lookkisi</a>
+      | <a href="/logout">Kirjaudu ulos</a>
+
+    {% endif %}
+  </p>
+
+  {% if session.username %}
+
+  {% else %}
+    <p>
+      Hyppää bämä maailmaan...
+      <br />
+	  <a href="/login">Olen jo bämä!</a> |
+	  <a href="/register">Muutu bämäksi tänään!</a>
+  {% endif %}
+  </p>
+
+  {% block content %}{% endblock %}
+
+</body>
+
+</html>

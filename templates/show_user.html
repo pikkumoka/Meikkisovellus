@@ -1,25 +1,18 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Meikkiartisti {{ user.username }}</title>
-</head>
+{% block title %}Luo tunnus{% endblock %}
 
-<body>
-	<h1>Meikkiartisti {{ user.username }}</h1>
-	<p>
-		Yhteensä {{ looks | count }} julkaistua lookkia
-	</p>
-	<h2>Julkaistut lookit</h2>
-	<ul>
-		{% for look in looks %}
-		<li><a href="/look/{{ look.id }}">{{ look.title }}</a></li>
-		{% endfor %}
-	</ul>
+{% block content %}
 
-	<p>
-		<a href="/">Etusivulle</a>
-	</p>
-</body>
+<h2>{{ user.username }}n profiili</h2>
+<p>
+	Yhteensä {{ looks | count }} julkaistua lookkia
+</p>
+<h3>Julkaistut lookit</h3>
+<ul>
+	{% for look in looks %}
+	<li><a href="/look/{{ look.id }}">{{ look.title }}</a></li>
+	{% endfor %}
+</ul>
 
-</html>
+{% endblock %}

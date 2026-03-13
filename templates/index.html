@@ -1,46 +1,17 @@
-<!DOCTYPE html>
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Meikkilookit</title>
-</head>
+{% block title %}Bämätoimisto{% endblock %}
 
-<body>
-	<h1>Bämä factory</h1>
+{% block content %}
+<p>
+  Tervetuloa {{ session.username }}, olet {{ session.user_id }}. bämä täällä.
+</p>
+<h2>Julkaistut lookit</h2>
 
-  <p>
-    <a href="/find_look">Hae lookkeja</a>
-
-    {% if session.user_id %}
-      | <a href="/new_look">Jaa uusi lookkisi</a>
-
-    {% endif %}
-  </p>
-
-  {% if session.username %}
-  <p>
-    Tervetuloa {{ session.username }}, olet {{ session.user_id }}. bämä täällä.
-  </p>
-    <p>
-	  <a href="/logout">Kirjaudu ulos</a>
-  </p>
-
-  {% else %}
-    <p>
-      Hyppää bämä maailmaan...
-      <br />
-	  <a href="/login">Olen jo bämä!</a> |
-	  <a href="/register">Muutu bämäksi tänään!</a>
-  </p>
-  {% endif %}
-
-  <h2>Julkaistut lookit</h2>
-  <ul>
+<ul>
   {% for look in looks %}
   <li><a href="/look/{{ look.id }}">{{ look.title }}</a></li>
   {% endfor %}
-  </ul>
+</ul>
 
-</body>
-
-</html>
+{% endblock %}
