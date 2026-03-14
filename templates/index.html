@@ -6,12 +6,14 @@
 <p>
   Tervetuloa {{ session.username }}, olet {{ session.user_id }}. bämä täällä.
 </p>
-<h2>Julkaistut lookit</h2>
 
-<ul>
-  {% for look in looks %}
-  <li><a href="/look/{{ look.id }}">{{ look.title }}</a></li>
-  {% endfor %}
+<h2>Julkaistut lookit</h2>
+{% for look in looks %}
+<div class="look">
+  <a href="/look/{{ look.id }}">{{ look.title }}</a> <br />
+  Meikkiartisti : <a href="/user/{{ look.user_id }}">{{ look.username }}</a>
+  </div>
+{% endfor %}
 </ul>
 
 {% endblock %}

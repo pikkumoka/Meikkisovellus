@@ -31,9 +31,10 @@ def get_classes(look_id) :
 	return db.query(sql, [look_id])
 
 def get_looks() :
-	sql = """SELECT id, title
-			FROM looks
-			ORDER BY id DESC"""
+	sql = """SELECT l.id, l.title, u.id user_id, u.username
+			FROM looks l, users u
+			WHERE l.user_id = u.id
+			ORDER BY l.id DESC"""
 	return db.query(sql)
 
 def get_look(look_id) :
