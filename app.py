@@ -78,11 +78,13 @@ def add_images():
 
 	file = request.files["image"]
 	if not file.filename.endswith(".jpg"):
-		return "VIRHE: väärä tiedostomuoto"
+		flash("Tarkistathan, että tiedosto on jpg")
+		return redirect("/images/" + str(look_id))
 
 	image = file.read()
 	if len(image) > 100 * 1024:
-		return "VIRHE: liian suuri kuva"
+		flash("Kuvasi on liian suuri")
+		return redirect("/images/" + str(look_id))
 
 	looks.add_image(look_id, image)
 	return redirect("/images/" + str(look_id))
@@ -122,7 +124,7 @@ def new_look() :
 	classes = looks.get_all_classes()
 	return render_template("new_look.html", classes=classes)
 
-#Upload makeuplook
+#Upload new makeuplook
 @app.route("/create_look", methods=["POST"])
 def create_look() :
 	require_login()
@@ -130,6 +132,13 @@ def create_look() :
 	title = request.form["title"]
 	if not title or len(title) > 50 :
 		abort(403)
+	#file = request.files["image"]
+	#if not file.filename.endswith(".jpg"):
+	#	return "VIRHE: väärä tiedostomuoto"
+
+	#image = file.read()
+	#if len(image) > 100 * 1024:
+	#	return "VIRHE: liian suuri kuva"
 	description = request.form["description"]
 	if len(description) > 1000 :
 		abort(403)

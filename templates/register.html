@@ -22,11 +22,10 @@
 </form>
 
 <br/>
-  {% for message in get_flashed_messages() %}
-  {% if loop.first %}
-  <div class="info">
-  {% endif %}
-  {{ message }}
-  {% endfor %}
+{% for message in get_flashed_messages() %}
+<p>
+  <b>{{ message }}</b>
+</p>
+{% endfor %}
 
 {% endblock %}
