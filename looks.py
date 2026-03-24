@@ -12,10 +12,10 @@ def get_all_classes() :
 
 	return classes
 
-def add_look(title, description, makeup, user_id, classes) :
-	sql = """INSERT INTO looks (title, description, makeup, user_id)
-			VALUES (?, ?, ?, ?)"""
-	db.execute(sql, [title, description, makeup, user_id])
+def add_look(title, description, user_id, classes) :
+	sql = """INSERT INTO looks (title, description, user_id)
+			VALUES (?, ?, ?)"""
+	db.execute(sql, [title, description, user_id])
 
 	look_id = db.last_insert_id()
 
@@ -38,17 +38,17 @@ def get_looks() :
 	return db.query(sql)
 
 def get_look(look_id) :
-	sql = """SELECT l.id, l.title, l.description, l.makeup, u.id user_id, u.username
+	sql = """SELECT l.id, l.title, l.description, u.id user_id, u.username
 			FROM looks l, users u
 			WHERE l.user_id = u.id AND
 				l.id = ?"""
 	result =  db.query(sql, [look_id])
 	return result[0] if result else None
 
-def update_look(look_id, title, description, makeup, classes) :
-	sql = """UPDATE looks SET title = ?, description =?, makeup = ?
+def update_look(look_id, title, description, classes) :
+	sql = """UPDATE looks SET title = ?, description =?
 			WHERE id = ?"""
-	db.execute(sql, [title, description, makeup, look_id])
+	db.execute(sql, [title, description, look_id])
 
 	sql = "DELETE FROM look_classes WHERE look_id = ?"
 	db.execute(sql, [look_id])

@@ -16,8 +16,8 @@ Nettisivu meikkilookkien jakamiseen ja arvosteluun.
 
 ♡ Käyttäjä pystyy valitsemaan lookille yhden tai useamman luokittelun (esim. arkimeikki tai juhlameikki ja lookin vaikeusateen.)
 
-♡ Käyttäjä pystyy antaa toisille lookeille kommentteja ja oman arvion vaikeusasteesta. Lookeissa näytetään kommentit sekä vaikeusasteet. (Ei vielä toteutettu)
-    
+♡ Käyttäjä pystyy antamaan toisille lookeille kommentteja ja oman arvion vaikeusasteesta. Lookeissa näytetään kommentit sekä vaikeusasteet. (Vaikeusaste toiminto kommenteissa ei vielä toteutettu)
+
 Tässä pääasiallinen tietokohde on meikkilookit ja toissijainen tietokohde on komentti lookkeihin.
 
 ⋆˚꩜｡ Sovelluksen asennus

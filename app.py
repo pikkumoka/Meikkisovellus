@@ -146,7 +146,6 @@ def create_look() :
 	description = request.form["description"]
 	if len(description) > 1000 :
 		abort(403)
-	makeup = request.form["makeup"]
 	user_id = session["user_id"]
 
 	all_classes = looks.get_all_classes()
@@ -160,7 +159,7 @@ def create_look() :
 				abort(403)
 			classes.append((class_title, class_value))
 
-	looks.add_look(title, description, makeup, user_id, classes)
+	looks.add_look(title, description, user_id, classes)
 
 	return redirect("/")
 
@@ -203,7 +202,6 @@ def update_look() :
 	description = request.form["description"]
 	if len(description) > 1000 :
 		abort(403)
-	makeup = request.form["makeup"]
 
 	all_classes = looks.get_all_classes()
 	classes = []
@@ -216,7 +214,7 @@ def update_look() :
 				abort(403)
 			classes.append((class_title, class_value))
 
-	looks.update_look(look_id, title, description, makeup, classes)
+	looks.update_look(look_id, title, description, classes)
 
 	return redirect("/look/" + str(look_id))
 
@@ -254,13 +252,6 @@ def new_comment():
 
 	looks.add_comment(content, user_id, look_id)
 	return redirect("/look/" + str(look_id))
-
-def get_comments(look_id):
-    sql = """SELECT c.id, c.content, c.sent_at, c.user_id, u.username
-             FROM comments c, users u
-             WHERE c.user_id = u.id AND c.look_d = ?
-             ORDER BY c.id"""
-    return db.query(sql, [look_id])
 
 #Registration
 @app.route("/register")
