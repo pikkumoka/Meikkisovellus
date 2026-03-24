@@ -45,6 +45,7 @@ face, etc products orr ? -->
   <input type="text" name="makeup" value="{{ look.makeup }}"/>
   </p>
   <input type="hidden" name="look_id" value="{{ look.id }}" />
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="submit" value="Päivitä lookkia" />
   <a href="/look/{{ look.id }}">
   <button type="button">Mitätöi muutokset</button>

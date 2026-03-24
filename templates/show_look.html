@@ -53,6 +53,7 @@
 	<textarea name="content" rows="5" cols="40"></textarea>
 </p>
 <input type="hidden" name="look_id" value="{{ look.id }}" />
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 <input type="submit" value="Lähetä" />
 </form>
 {% endif %}

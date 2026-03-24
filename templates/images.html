@@ -21,6 +21,7 @@
     Kuva: <input type="file" name="image" accept=".jpg" />
   </p>
   <input type="hidden" name="look_id" value="{{ look.id }}">
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="submit" value="Lisää kuva" />
 </form>
 
@@ -31,6 +32,7 @@
   <br />
   {% endfor %}
   <input type="hidden" name="look_id" value="{{ look.id }}">
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <p>
     <input type="submit" value="Poista valitut kuvat" />
   </p>

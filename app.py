@@ -1,3 +1,4 @@
+import secrets
 import sqlite3
 from flask import Flask
 from flask import abort, make_response, redirect, render_template, request, session, flash
@@ -11,6 +12,12 @@ app.secret_key = config.secret_key
 
 def require_login() :
 	if "user_id" not in session :
+		abort(403)
+
+def check_csrf():
+	if "csrf_token" not in request.form :
+		abort(403)
+	if request.form["csrf_token"] != session["csrf_token"]:
 		abort(403)
 
 #Homepage
@@ -69,6 +76,7 @@ def edit_images(look_id) :
 @app.route("/add_image", methods=["POST"])
 def add_images():
 	require_login()
+	check_csrf()
 
 	look_id = request.form["look_id"]
 	look = looks.get_look(look_id)
@@ -94,6 +102,7 @@ def add_images():
 @app.route("/remove_images", methods=["POST"])
 def remove_images():
 	require_login()
+	check_csrf()
 
 	look_id = request.form["look_id"]
 	look = looks.get_look(look_id)
@@ -129,6 +138,7 @@ def new_look() :
 @app.route("/create_look", methods=["POST"])
 def create_look() :
 	require_login()
+	check_csrf()
 
 	title = request.form["title"]
 	if not title or len(title) > 50 :
@@ -178,6 +188,8 @@ def edit_look(look_id) :
 @app.route("/update_look", methods=["POST"])
 def update_look() :
 	require_login()
+	check_csrf()
+
 	look_id = request.form["look_id"]
 	look = looks.get_look(look_id)
 	if not look :
@@ -212,6 +224,7 @@ def update_look() :
 @app.route("/remove_look/<int:look_id>", methods=["GET", "POST"])
 def remove_look(look_id) :
 	require_login()
+
 	look = looks.get_look(look_id)
 	if not look :
 		abort(404)
@@ -223,6 +236,7 @@ def remove_look(look_id) :
 		return render_template("remove_look.html", look=look)
 
 	if request.method == "POST" :
+		check_csrf()
 		if "remove" in request.form :
 			looks.remove_look(look_id)
 			return redirect("/")
@@ -231,12 +245,15 @@ def remove_look(look_id) :
 
 @app.route("/new_comment", methods=["POST"])
 def new_comment():
-    content = request.form["content"]
-    user_id = session["user_id"]
-    look_id = request.form["look_id"]
+	require_login()
+	check_csrf()
 
-    looks.add_comment(content, user_id, look_id)
-    return redirect("/look/" + str(look_id))
+	content = request.form["content"]
+	user_id = session["user_id"]
+	look_id = request.form["look_id"]
+
+	looks.add_comment(content, user_id, look_id)
+	return redirect("/look/" + str(look_id))
 
 def get_comments(look_id):
     sql = """SELECT c.id, c.content, c.sent_at, c.user_id, u.username
@@ -283,6 +300,7 @@ def login() :
 		if user_id :
 			session["user_id"] = user_id
 			session["username"] = username
+			session["csrf_token"] = secrets.token_hex(16)
 			return redirect("/")
 		else:
 			flash("Väärä tunnus tai salasana, yritä uudestaan")
