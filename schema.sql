@@ -30,3 +30,11 @@ CREATE TABLE images (
 	look_id INTEGER REFERENCES looks,
 	image BLOB
 );
+
+CREATE TABLE comments (
+	id INTEGER PRIMARY KEY,
+	look_id INTEGER REFERENCES looks,
+	user_id INTEGER REFERENCES users,
+	content TEXT,
+	sent_at TEXT
+);

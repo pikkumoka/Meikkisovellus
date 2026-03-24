@@ -35,9 +35,10 @@ def get_look(look_id) :
 	if not look :
 		abort(404)
 	classes = looks.get_classes(look_id)
-	images=looks.get_images(look_id)
+	images = looks.get_images(look_id)
+	comments = looks.get_comments(look_id)
 
-	return render_template("show_look.html", look=look, classes=classes, images=images)
+	return render_template("show_look.html", look=look, classes=classes, images=images, comments=comments)
 
 #Show look images
 @app.route("/image/<int:image_id>")
@@ -132,13 +133,6 @@ def create_look() :
 	title = request.form["title"]
 	if not title or len(title) > 50 :
 		abort(403)
-	#file = request.files["image"]
-	#if not file.filename.endswith(".jpg"):
-	#	return "VIRHE: väärä tiedostomuoto"
-
-	#image = file.read()
-	#if len(image) > 100 * 1024:
-	#	return "VIRHE: liian suuri kuva"
 	description = request.form["description"]
 	if len(description) > 1000 :
 		abort(403)
@@ -234,6 +228,22 @@ def remove_look(look_id) :
 			return redirect("/")
 		else :
 			return redirect("/look/" + str(look_id))
+
+@app.route("/new_comment", methods=["POST"])
+def new_comment():
+    content = request.form["content"]
+    user_id = session["user_id"]
+    look_id = request.form["look_id"]
+
+    looks.add_comment(content, user_id, look_id)
+    return redirect("/look/" + str(look_id))
+
+def get_comments(look_id):
+    sql = """SELECT c.id, c.content, c.sent_at, c.user_id, u.username
+             FROM comments c, users u
+             WHERE c.user_id = u.id AND c.look_d = ?
+             ORDER BY c.id"""
+    return db.query(sql, [look_id])
 
 #Registration
 @app.route("/register")

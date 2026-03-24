@@ -89,3 +89,15 @@ def add_image(look_id, image) :
 def remove_image(look_id, image_id) :
 	sql = "DELETE FROM images WHERE id = ? AND look_id = ?"
 	db.execute(sql, [image_id, look_id])
+
+def add_comment(content, user_id, look_id) :
+	sql = """INSERT INTO comments (look_id, user_id, content, sent_at)
+			VALUES (?, ?, ?, datetime('now'))"""
+	db.execute(sql, [look_id, user_id, content])
+
+def get_comments(look_id) :
+	sql = """SELECT c.id, c.content, c.sent_at, c.user_id, u.username
+			FROM comments c, users u
+			WHERE c.user_id = u.id AND c.look_id = ?
+			ORDER BY c.id"""
+	return db.query(sql, [look_id])

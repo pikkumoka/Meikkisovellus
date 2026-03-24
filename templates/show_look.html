@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% block title %}Luo tunnus{% endblock %}
+{% block title %}Look{% endblock %}
 
 {% block content %}
 
@@ -19,9 +19,12 @@
 	{{ look.username }}</a>
 </p>
 
-{% for image in images %}
-<img src="/image/{{ image.id }}" />
-{% endfor %}
+<div class="look_images">
+	{% for image in images %}
+	<img src="/image/{{ image.id }}" />
+	{% endfor %}
+</div>
+
 
 <p>
 	<b>Kuvaus - </b>{{ look.description }}
@@ -41,5 +44,36 @@
 	<b>Käytetyt meikit - </b> {{ look.makeup }}
 </p>
 {% endif %}
+
+{% if session.user_id %}
+
+<form action="/new_comment" method="post">
+<p>
+	<b>Jätä kommentti:</b><br />
+	<textarea name="content" rows="5" cols="40"></textarea>
+</p>
+<input type="hidden" name="look_id" value="{{ look.id }}" />
+<input type="submit" value="Lähetä" />
+</form>
+{% endif %}
+
+<p>
+	<b>Kommentit</b>
+</p>
+	{% for comment in comments %}
+<p>
+  {{ comment.username }} ({{ comment.sent_at }}):
+</p>
+<p>
+	{{ comment.content }}
+</p>
+  {% if comment.user_id == session.user_id %}
+<p>
+	<a href="/edit/{{ comment.id }}">Muokkaa</a> |
+    <a href="/remove/{{ comment.id }}">Poista</a>
+</p>
+{% endif %}
+<hr />
+{% endfor %}
 
 {% endblock %}
