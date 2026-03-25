@@ -264,12 +264,22 @@ def create() :
 	username = request.form["username"]
 	password1 = request.form["password1"]
 	password2 = request.form["password2"]
+
+	if len(username) <= 0 or len(username) >= 21 :
+		flash("Tunnus pitää olla ainakin yhden mutta alle 20 merkin pituinen")
+		return redirect("/register")
+
 	if password1 != password2 :
 		flash("Salasanat eivät täsmää, kokeile uudestaan")
 		return redirect("/register")
 
+	if len(password1) <= 4 or len(password2) <= 4 :
+		flash("Salasanan tulee olla ainakin 5 merkkiä pitkä!")
+		return redirect("/register")
+
 	try :
 		users.create_user(username, password1)
+
 	except sqlite3.IntegrityError:
 		flash("Tunnus on jo varattu, valitse toinen nimi")
 		return redirect("/register")
