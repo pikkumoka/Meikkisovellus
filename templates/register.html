@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title %}Luo tunnus{% endblock %}
+
+{% block content %}
+
+<h2>Luo tunnus</h2>
+<form action="/create" method="post">
+  <p>
+    Tunnus: <br />
+    <input type="text" name="username" minlength="1" maxlength="20" required/>
+  </p>
+  <p>
+    Salasana: <br />
+    <input type="password" name="password1" minlength="5" required/>
+  </p>
+  <p>
+    Salasana uudestaan: <br />
+    <input type="password" name="password2" />
+  </p>
+  <input type="submit" value="Luo tunnus" href="/login" minlength="5" required/>
+</form>
+
+<br/>
+{% for message in get_flashed_messages() %}
+<p>
+  <b>{{ message }}</b>
+</p>
+{% endfor %}
+
+{% endblock %}

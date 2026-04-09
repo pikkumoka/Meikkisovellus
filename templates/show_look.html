@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+
+{% block title %} {{ look.title }} {% endblock %}
+
+{% block content %}
+
+<h2>{{ look.title }}</h2>
+
+{% if session.user_id == look.user_id %}
+<p>
+	<a href="/edit_look/{{ look.id }}">Muokkaa lookkiasi</a>
+	<a href="/remove_look/{{ look.id }}">Poista lookkisi</a>
+</p>
+{% endif %}
+
+<p>
+	<b>Meikkiartisti - </b> <a href="/user/{{ look.user_id }}">
+	{{ look.username }} </a>
+</p>
+
+<p>
+	<img src="/image/{{ look.id }}" />
+</p>
+
+
+<p>
+	<b>Kuvaus - </b>{{ look.description }}
+</p>
+
+{% if classes %}
+<p>
+	<ul>
+	{% for class in classes %}
+	<li>{{ class.title }} - {{ class.value }}</li>
+	{% endfor %}
+	</ul>
+</p>
+{% endif %}
+
+{% if session.user_id %}
+
+<form action="/new_comment" method="post">
+<p>
+	<b>Jätä kommentti:</b><br />
+	<textarea name="content" rows="5" cols="40"></textarea>
+</p>
+<input type="hidden" name="look_id" value="{{ look.id }}" />
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+<input type="submit" value="Lähetä" />
+</form>
+{% endif %}
+
+<p>
+	<b>Kommentit</b>
+</p>
+	{% for comment in comments %}
+<p>
+  {{ comment.username }} ({{ comment.sent_at }}):
+</p>
+<p>
+	{{ comment.content }}
+</p>
+  {% if comment.user_id == session.user_id %}
+<p>
+	<a href="/edit/{{ comment.id }}">Muokkaa</a> |
+    <a href="/remove/{{ comment.id }}">Poista</a>
+</p>
+{% endif %}
+<hr />
+{% endfor %}
+
+{% endblock %}

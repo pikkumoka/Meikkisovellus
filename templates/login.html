@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block title %}Kirjaudu sisään{% endblock %}
+
+{% block content %}
+
+<h2>Kirjaudu sisään</h2>
+<form action="/login" method="post">
+  <p>
+    Tunnus: <br />
+    <input type="text" name="username" />
+  </p>
+  <p>
+    Salasana: <br />
+    <input type="password" name="password" />
+  </p>
+  <input type="submit" value="Kirjaudu" />
+</form>
+{% for message in get_flashed_messages() %}
+<p>
+  <b>{{ message }}</b>
+</p>
+{% endfor %}
+
+{% endblock %}

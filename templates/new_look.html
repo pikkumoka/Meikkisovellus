@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block title %}Luo uusi lookki{% endblock %}
+
+{% block content %}
+
+<h2>Uusi lookki</h2>
+
+<p>
+  Lisääthän otsikon, kuvan sekä kuvauksen lookillesi.
+</p>
+
+<form action="/create_look" method="post" enctype="multipart/form-data">
+  <p>
+    Otsikko: <br />
+    <input type="text" name="title" maxlength="50" required />
+  </p>
+  <p>
+    Kuva: <br />
+    <input type="file" name="image" accept=".jpg" required />
+  </p>
+  <p>
+  Kuvaus: <br />
+  <textarea name="description" rows="8" cols="60" maxlength="1000" required ></textarea>
+  </p>
+  {% for class in classes %}
+  <p>
+  {{ class }}: <br />
+  <select name="classes">
+    <option value="">valitse</option>
+  {% for option in classes[class] %}
+    <option value="{{ class }}:{{ option }}">{{ option }}</option>
+  {% endfor %}
+  </select>
+  </p>
+  {% endfor %}
+
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+  <input type="submit" value="Luo lookki" />
+</form>
+
+{% endblock %}
