@@ -45,7 +45,7 @@ def get_look(look_id) :
 	result =  db.query(sql, [look_id])
 	return result[0] if result else None
 
-def update_look(look_id, title, description, image, classes) :
+def update_look(look_id, title, description, image, classes):
 	sql = """UPDATE looks SET title = ?, description = ?, image = ?
 			WHERE id = ?"""
 	db.execute(sql, [title, description, image, look_id])

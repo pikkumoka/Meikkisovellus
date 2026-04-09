@@ -152,7 +152,7 @@ def update_look() :
 	title = request.form["title"]
 	if not title or len(title) > 50 :
 		abort(403)
-	print("Look sisältö:", look.keys())
+
 	image = look["image"]
 	if "image" in request.files:
 		file = request.files["image"]
