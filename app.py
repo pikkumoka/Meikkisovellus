@@ -42,79 +42,9 @@ def get_look(look_id) :
 	if not look :
 		abort(404)
 	classes = looks.get_classes(look_id)
-	images = looks.get_images(look_id)
 	comments = looks.get_comments(look_id)
 
-	return render_template("show_look.html", look=look, classes=classes, images=images, comments=comments)
-
-#Show look images
-@app.route("/image/<int:image_id>")
-def show_image(image_id):
-    image = looks.get_image(image_id)
-    if not image:
-        abort(404)
-
-    response = make_response(bytes(image))
-    response.headers.set("Content-Type", "image/jpg")
-    return response
-
-#Edit images
-@app.route("/images/<int:look_id>")
-def edit_images(look_id) :
-	require_login()
-	look = looks.get_look(look_id)
-	if not look :
-		abort(404)
-	if look["user_id"] != session["user_id"] :
-		abort(403)
-
-	images = looks.get_images(look_id)
-
-	return render_template("images.html", look=look, images=images)
-
-#Add images
-@app.route("/add_image", methods=["POST"])
-def add_images():
-	require_login()
-	check_csrf()
-
-	look_id = request.form["look_id"]
-	look = looks.get_look(look_id)
-	if not look :
-		abort(404)
-	if look["user_id"] != session["user_id"] :
-		abort(403)
-
-	file = request.files["image"]
-	if not file.filename.endswith(".jpg"):
-		flash("Tarkistathan, että tiedosto on jpg")
-		return redirect("/images/" + str(look_id))
-
-	image = file.read()
-	if len(image) > 100 * 1024:
-		flash("Kuvasi on liian suuri")
-		return redirect("/images/" + str(look_id))
-
-	looks.add_image(look_id, image)
-	return redirect("/images/" + str(look_id))
-
-#Remove image
-@app.route("/remove_images", methods=["POST"])
-def remove_images():
-	require_login()
-	check_csrf()
-
-	look_id = request.form["look_id"]
-	look = looks.get_look(look_id)
-	if not look :
-		abort(404)
-	if look["user_id"] != session["user_id"] :
-		abort(403)
-
-	for image_id in request.form.getlist("image_id") :
-		looks.remove_image(look_id, image_id)
-
-	return redirect("/images/" + str(look_id))
+	return render_template("show_look.html", look=look, classes=classes, comments=comments)
 
 #Find looks
 @app.route("/find_look")
@@ -134,6 +64,17 @@ def new_look() :
 	classes = looks.get_all_classes()
 	return render_template("new_look.html", classes=classes)
 
+#Show look image
+@app.route("/image/<int:look_id>")
+def show_image(look_id):
+    image = looks.get_image(look_id)
+    if not image:
+        abort(404)
+
+    response = make_response(bytes(image))
+    response.headers.set("Content-Type", "image/jpg")
+    return response
+
 #Upload new makeuplook
 @app.route("/create_look", methods=["POST"])
 def create_look() :
@@ -148,6 +89,17 @@ def create_look() :
 		abort(403)
 	user_id = session["user_id"]
 
+	if "image" not in request.files:
+		flash("Kuva puuttuu")
+		return redirect("/create_look")
+	file = request.files["image"]
+	if not file.filename.endswith(".jpg"):
+		flash("Tarkistathan, että tiedosto on jpg")
+
+	image = file.read()
+	if len(image) > 100 * 1024:
+		flash("Kuvasi on liian suuri")
+
 	all_classes = looks.get_all_classes()
 	classes = []
 	for entry in request.form.getlist("classes") :
@@ -159,7 +111,7 @@ def create_look() :
 				abort(403)
 			classes.append((class_title, class_value))
 
-	looks.add_look(title, description, user_id, classes)
+	looks.add_look(title, description, user_id, image, classes)
 
 	return redirect("/")
 
@@ -199,6 +151,20 @@ def update_look() :
 	title = request.form["title"]
 	if not title or len(title) > 50 :
 		abort(403)
+
+	image = look["image"]
+	if "image" in request.files:
+		file = request.files["image"]
+		if file and file.filename :
+			if not file.filename.endswith(".jpg"):
+				flash("Tarkistathan, että tiedosto on jpg")
+				return redirect("/edit_look/" + str(look_id))
+
+			image = file.read()
+			if len(image) > 100 * 1024:
+				flash("Kuvasi on liian suuri")
+				return redirect("/edit_look/" + str(look_id))
+
 	description = request.form["description"]
 	if len(description) > 1000 :
 		abort(403)
@@ -214,7 +180,7 @@ def update_look() :
 				abort(403)
 			classes.append((class_title, class_value))
 
-	looks.update_look(look_id, title, description, classes)
+	looks.update_look(look_id, title, description, image, classes)
 
 	return redirect("/look/" + str(look_id))
 

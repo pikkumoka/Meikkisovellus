@@ -6,9 +6,19 @@
 
 <h2>Etsi lookkia</h2>
 
+<!-- Lisää viel mistä voi valita vaikeusaste ja kategoria -->
+
 <form action="/find_look" method="get">
 	<p>
 		Hakusana : <input type="text" name="query" value="{{ query }}">
+		Kategoria : (ei toimi vielä, älä laita)
+		<select name="Kategoria" id="ok">
+			<option value="valitse">Valitse</option>
+			<option value="arkimeikki">Arkimeikki</option>
+			<option value="juhlameikki">Juhlameikki</option>
+			<option value="alakulttuurit">Alakulttuurit</option>
+			<option value="maskeeraus">Maskeeraus</option>
+			<option value="muu">Muu</option>
 	</p>
 	<input type="submit" value="Etsi">
 </form>

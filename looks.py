@@ -12,10 +12,10 @@ def get_all_classes() :
 
 	return classes
 
-def add_look(title, description, user_id, classes) :
-	sql = """INSERT INTO looks (title, description, user_id)
-			VALUES (?, ?, ?)"""
-	db.execute(sql, [title, description, user_id])
+def add_look(title, description, user_id, image, classes) :
+	sql = """INSERT INTO looks (title, description, user_id, image)
+			VALUES (?, ?, ?, ?)"""
+	db.execute(sql, [title, description, user_id, image])
 
 	look_id = db.last_insert_id()
 
@@ -38,17 +38,17 @@ def get_looks() :
 	return db.query(sql)
 
 def get_look(look_id) :
-	sql = """SELECT l.id, l.title, l.description, u.id user_id, u.username
+	sql = """SELECT l.id, l.title, l.description, l.image, u.id user_id, u.username
 			FROM looks l, users u
 			WHERE l.user_id = u.id AND
 				l.id = ?"""
 	result =  db.query(sql, [look_id])
 	return result[0] if result else None
 
-def update_look(look_id, title, description, classes) :
-	sql = """UPDATE looks SET title = ?, description =?
+def update_look(look_id, title, description, image, classes):
+	sql = """UPDATE looks SET title = ?, description = ?, image = ?
 			WHERE id = ?"""
-	db.execute(sql, [title, description, look_id])
+	db.execute(sql, [title, description, image, look_id])
 
 	sql = "DELETE FROM look_classes WHERE look_id = ?"
 	db.execute(sql, [look_id])
@@ -73,22 +73,10 @@ def find_looks(query) :
 	like = "%" + query + "%"
 	return db.query(sql, [like, like])
 
-def get_images(look_id) :
-	sql = "SELECT id FROM images WHERE look_id = ?"
-	return db.query(sql, [look_id])
-
-def get_image(image_id) :
-	sql = "SELECT image FROM images WHERE id = ?"
-	result = db.query(sql, [image_id])
+def get_image(look_id) :
+	sql = "SELECT image FROM looks WHERE id = ?"
+	result = db.query(sql, [look_id])
 	return result[0][0] if result else None
-
-def add_image(look_id, image) :
-    sql = "INSERT INTO images (look_id, image) VALUES (?, ?)"
-    db.execute(sql, [look_id, image])
-
-def remove_image(look_id, image_id) :
-	sql = "DELETE FROM images WHERE id = ? AND look_id = ?"
-	db.execute(sql, [image_id, look_id])
 
 def add_comment(content, user_id, look_id) :
 	sql = """INSERT INTO comments (look_id, user_id, content, sent_at)

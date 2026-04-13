@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% block title %}Luo tunnus{% endblock %}
+{% block title %}Luo uusi lookki{% endblock %}
 
 {% block content %}
 
@@ -10,14 +10,15 @@
   Lisääthän otsikon, kuvan sekä kuvauksen lookillesi.
 </p>
 
-<form action="/create_look" method="post">
+<form action="/create_look" method="post" enctype="multipart/form-data">
   <p>
     Otsikko: <br />
     <input type="text" name="title" maxlength="50" required />
   </p>
+
   <p>
-    Kuva: (ei vielä toimiva, käytä kuvat kohtaa kun lookki on tehty) <br />
-    <input type="file" name="image" accept=".jpg" />
+    Kuva: <br />
+    <input type="file" name="image" accept=".jpg" required />
   </p>
   <p>
   Kuvaus: <br />

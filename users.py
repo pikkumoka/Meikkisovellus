@@ -8,7 +8,7 @@ def get_user(user_id) :
 
 def get_looks(user_id) :
 	sql = """SELECT id, title
-			FROM looks 
+			FROM looks
 			WHERE user_id = ?
 			ORDER BY id DESC
 			"""

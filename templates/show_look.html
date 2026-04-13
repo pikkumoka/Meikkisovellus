@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 
-{% block title %}Look{% endblock %}
+{% block title %} {{ look.title }} {% endblock %}
 
 {% block content %}
 
@@ -10,21 +10,17 @@
 <p>
 	<a href="/edit_look/{{ look.id }}">Muokkaa lookkiasi</a>
 	<a href="/remove_look/{{ look.id }}">Poista lookkisi</a>
-	<a href="/images/{{ look.id }}">Kuvat</a>
 </p>
 {% endif %}
 
 <p>
 	<b>Meikkiartisti - </b> <a href="/user/{{ look.user_id }}">
-	{{ look.username }}</a>
+	{{ look.username }} </a>
 </p>
 
-<div class="look_images">
-	{% for image in images %}
-	<img src="/image/{{ image.id }}" />
-	{% endfor %}
-</div>
-
+<p>
+	<img src="/image/{{ look.id }}" />
+</p>
 
 <p>
 	<b>Kuvaus - </b>{{ look.description }}

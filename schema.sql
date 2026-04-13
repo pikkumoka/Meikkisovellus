@@ -8,8 +8,8 @@ CREATE TABLE looks (
 	id INTEGER PRIMARY KEY,
 	title TEXT,
 	description TEXT,
-	makeup TEXT,
-	user_id INTEGER REFERENCES users
+	user_id INTEGER REFERENCES users,
+	image BLOB
 );
 
 CREATE TABLE classes (
@@ -23,12 +23,6 @@ CREATE TABLE look_classes (
 	look_id INTEGER REFERENCES looks,
 	title TEXT,
 	value TEXT
-);
-
-CREATE TABLE images (
-	id INTEGER PRIMARY KEY,
-	look_id INTEGER REFERENCES looks,
-	image BLOB
 );
 
 CREATE TABLE comments (
