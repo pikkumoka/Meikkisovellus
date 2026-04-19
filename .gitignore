@@ -3,3 +3,4 @@ venv
 database.db
 templates/new_item.html
 vanha.db
+.vscode

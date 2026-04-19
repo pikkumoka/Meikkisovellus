@@ -49,13 +49,13 @@ def get_look(look_id) :
 #Find looks
 @app.route("/find_look")
 def find_look() :
-    query = request.args.get("query")
-    if query:
-        results = looks.find_looks(query)
-    else:
-        query = ""
-        results = []
-    return render_template("find_look.html", query=query, results=results)
+	query = request.args.get("query")
+	if query:
+		results = looks.find_looks(query)
+	else:
+		query = ""
+		results = []
+	return render_template("find_look.html", query=query, results=results)
 
 #New look
 @app.route("/new_look")
@@ -97,7 +97,7 @@ def create_look() :
 		flash("Tarkistathan, että tiedosto on jpg")
 
 	image = file.read()
-	if len(image) > 100 * 1024:
+	if len(image) > 1000 * 1024:
 		flash("Kuvasi on liian suuri")
 
 	all_classes = looks.get_all_classes()
@@ -157,12 +157,12 @@ def update_look() :
 		file = request.files["image"]
 		if file and file.filename :
 			if not file.filename.endswith(".jpg"):
-				flash("Tarkistathan, että tiedosto on jpg")
+				flash(f"Tarkistathan, että tiedosto on jpg, koko = {len(image)}")
 				return redirect("/edit_look/" + str(look_id))
 
 			image = file.read()
-			if len(image) > 100 * 1024:
-				flash("Kuvasi on liian suuri")
+			if len(image) > 1000 * 1024:
+				flash(f"Kuvasi on liian suuri = {len(image)}")
 				return redirect("/edit_look/" + str(look_id))
 
 	description = request.form["description"]
@@ -207,6 +207,7 @@ def remove_look(look_id) :
 		else :
 			return redirect("/look/" + str(look_id))
 
+#Add comment
 @app.route("/new_comment", methods=["POST"])
 def new_comment():
 	require_login()
@@ -218,6 +219,21 @@ def new_comment():
 
 	looks.add_comment(content, user_id, look_id)
 	return redirect("/look/" + str(look_id))
+
+#Delete comment
+@app.route("/remove_comment/<int:comment_id>", methods=["GET", "POST"])
+def remove_comment(comment_id):
+	require_login()
+	comment = looks.get_comment(comment_id)
+
+	if request.method == "GET":
+		return render_template("remove_comment.html", comment=comment)
+
+	if request.method == "POST" :
+		check_csrf()
+		if "remove" in request.form :
+			looks.remove_comment(comment["id"])
+		return redirect("/look/" + str(comment["look_id"]))
 
 #Registration
 @app.route("/register")

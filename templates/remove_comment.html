@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block title %}Poista kommentti{% endblock %}
+
+{% block content %}
+
+<h2>Oletko varma kommentin poistosta?</h2>
+  <p><b>Kommentti -</b> {{ comment.content }}</p>
+  <p>Et voi perua tätä toimintoa.</p>
+  <form action="/remove_comment/{{ comment.id }}" method="post">
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+  <input type="submit" name="remove" value="Poista kommentti">
+  <input type="submit" name="back" value="Palaa takaisin">
+  </form>
+
+{% endblock %}

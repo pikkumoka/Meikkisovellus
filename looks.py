@@ -20,7 +20,7 @@ def add_look(title, description, user_id, image, classes) :
 	look_id = db.last_insert_id()
 
 	sql = """INSERT INTO look_classes (look_id, title, value)
-	VALUES(?, ?, ?)"""
+			VALUES(?, ?, ?)"""
 	for  title, value in classes :
 		db.execute(sql, [look_id, title, value])
 
@@ -82,6 +82,14 @@ def add_comment(content, user_id, look_id) :
 	sql = """INSERT INTO comments (look_id, user_id, content, sent_at)
 			VALUES (?, ?, ?, datetime('now'))"""
 	db.execute(sql, [look_id, user_id, content])
+
+def remove_comment(comment_id) :
+	sql = "DELETE FROM comments WHERE id = ?"
+	db.execute(sql, [comment_id])
+
+def get_comment(comment_id) :
+	sql = "SELECT id, look_id, user_id, content FROM comments WHERE id = ?"
+	return db.query(sql, [comment_id])[0]
 
 def get_comments(look_id) :
 	sql = """SELECT c.id, c.content, c.sent_at, c.user_id, u.username
