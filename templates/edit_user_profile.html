@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block title %} Muokkaa profiilia {% endblock %}
+
+{% block content %}
+
+<h2>{{ user.username }}-bämän profiili</h2>
+
+<form action="/update_profile" method="post" enctype="multipart/form-data">
+
+<h3>
+    <input type="hidden" name="user_id" value="{{ user.id }}" />
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+
+    <input type="submit" name="update" value="Päivitä profiilia">
+    <a href="/user/{{ user.id }}">
+        <button type="button">Palaa takaisin</button>
+    </a>
+
+</h3>
+
+<h3>Muokkaa profiilikuvaa</h3>
+  <p>
+    Nykyinen profiilikuva : <br />
+
+    <img src="/profile_picture/{{ user.id}}" /> <br/>
+
+    Vaihda profiilikuva : <br/>
+
+    <input type="file" name="profile_picture" accept=".jpg" />
+  </p>
+</form>
+
+<p>
+	Liittynyt bämäksi {{ user.created_at }} <br />
+	Yhteensä {{ looks | count }} julkaistua lookkia.
+</p>
+
+<h3>Julkaistut lookit</h3>
+
+<ul>
+	{% for look in looks %}
+	<li><a href="/look/{{ look.id }}">{{ look.title }}</a></li>
+	{% endfor %}
+</ul>
+
+{% endblock %}

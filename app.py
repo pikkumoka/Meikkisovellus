@@ -269,6 +269,61 @@ def create() :
 	flash("Tunnus luotu, kirjaudu sisään")
 	return redirect("/login")
 
+#Edit account information
+@app.route("/edit_profile/<int:user_id>")
+def edit_profile(user_id) :
+	require_login()
+
+	user = users.get_user(user_id)
+	if not user :
+		abort(404)
+	if user["id"] != session["user_id"] :
+		abort(403)
+
+	looks = users.get_looks(user_id)
+	return render_template("edit_user_profile.html", user=user, looks=looks)
+
+#Update account information
+@app.route("/update_profile", methods=["POST"])
+def update_profile() :
+	require_login()
+	check_csrf()
+
+	user_id = session["user_id"]
+	user = users.get_user(user_id)
+	if not user :
+		abort(404)
+	if user["id"] != session["user_id"] :
+		abort(403)
+
+	profile_picture = user["profile_picture"]
+	if "profile_picture" in request.files :
+		file = request.files["profile_picture"]
+		if file and file.filename :
+			if not file.filename.endswith(".jpg"):
+				flash("Tarkistathan, että tiedosto on jpg")
+				return redirect("/edit_profile/" + str(user_id))
+
+			profile_picture = file.read()
+			if len(profile_picture) > 1000 * 1024:
+				flash(f"Kuvasi on liian suuri = {len(profile_picture)}")
+				return redirect("/edit_profile/" + str(user_id))
+
+	users.update_user(user_id, profile_picture)
+
+	return redirect("/user/" + str(user_id))
+
+#Show profile picture
+@app.route("/profile_picture/<int:user_id>")
+def show_profile_picture(user_id):
+    profile_picture = users.get_profile_picture(user_id)
+    if not profile_picture :
+        abort(404)
+
+    response = make_response(bytes(profile_picture))
+    response.headers.set("Content-Type", "image/jpg")
+    return response
+
 #Login
 @app.route("/login", methods=["GET", "POST"])
 def login() :
@@ -285,7 +340,7 @@ def login() :
 			session["username"] = username
 			session["csrf_token"] = secrets.token_hex(16)
 			return redirect("/")
-		else:
+		else :
 			flash("Väärä tunnus tai salasana, yritä uudestaan")
 			return redirect("/login")
 

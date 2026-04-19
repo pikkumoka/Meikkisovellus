@@ -54,7 +54,7 @@
 </p>
 	{% for comment in comments %}
 <p>
-  {{ comment.username }} ({{ comment.sent_at }}):
+  <a href="/user/{{ comment.user_id }}">{{ comment.username }}</a> ({{ comment.sent_at }}):
 </p>
 <p>
 	{{ comment.content }}

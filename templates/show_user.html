@@ -4,11 +4,23 @@
 
 {% block content %}
 
-<h2>{{ user.username }}n profiili</h2>
+<h2>{{ user.username }}-bämän profiili</h2>
+
+{% if session.user_id == user.id %}
+
+<h3><a href="/edit_profile/{{ user.id }}">Hallitse profiilia</a></h3>
+
+{% endif %}
 <p>
-	Yhteensä {{ looks | count }} julkaistua lookkia
+	<img src="/profile_picture/{{ user.id }}" />
+</p>
+
+<p>
+	Liittynyt bämäksi {{ user.created_at }} <br />
+	Yhteensä {{ looks | count }} julkaistua lookkia.
 </p>
 <h3>Julkaistut lookit</h3>
+
 <ul>
 	{% for look in looks %}
 	<li><a href="/look/{{ look.id }}">{{ look.title }}</a></li>
