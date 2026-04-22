@@ -4,19 +4,15 @@
 
 {% block content %}
 
-{% if session.username %}
-<p>
-  Tervetuloa {{ session.username }}, olet {{ session.user_id }}. bämä täällä!
-</p>
-{% endif %}
-
-<h2>Julkaistut lookit</h2>
-{% for look in looks %}
-<div class="look">
+<div class="looks">
+  <h2>Uusimmat lookit</h2>
+  {% for look in looks %}
+  <p>
   <a href="/look/{{ look.id }}">{{ look.title }}</a> <br />
   Meikkiartisti : <a href="/user/{{ look.user_id }}">{{ look.username }}</a>
-  </div>
+  </p>
 {% endfor %}
 </ul>
+</div>
 
 {% endblock %}

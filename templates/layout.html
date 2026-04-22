@@ -8,31 +8,67 @@
 </head>
 
 <body>
-    <h1>Bämätehdas</h1>
+  <h1 style="font-family:precious">Bämätehdas</h1>
+  <div class="main_container">
+    <div class="navigation_bars">
+      <!-- 
+      {% if session.user_id %}
+      <p><img url="../static/pictures/login_sidebar.gif">
+      </br>Muokkaa profiilia</p>
+      {% endif %} -->
 
-  <p>
-    <a href="/">Etusivulle</a> |
-    <a href="/find_look">Hae lookkeja</a>
+    </div>
+    <div class="navigation_bars">
+      {% if session.username %}
+      <p>Hei {{ session.username }}, olet nr. {{ session.user_id }} bämä täällä!</p>
+      {% endif %}
 
-    {% if session.user_id %}
-      | <a href="/new_look">Jaa uusi lookkisi</a>
-      | <a href="/logout">Kirjaudu ulos</a>
+      <p><a href="/">Etusivulle</a> |
+        <a href="/find_look">Hae lookkeja</a>
+        
+        {% if session.user_id %}
+        | <a href="/new_look">Jaa uusi lookkisi</a>
+        {% endif %}
+      </p>
+    </div>
+    
+    <div class="navigation_bars">
+      {% if session.username %}
+      <p><a href="/logout">Kirjaudu ulos</a></p>
+      {% else %}
+      <p>Hyppää bämä maailmaan...<br />
+        <a href="/login">Olen jo bämä!</a> |
+        <a href="/register">Muutu bämäksi tänään!</a></p>
+        {% endif %}
+    </div>
+  </div>
 
-    {% endif %}
-  </p>
+  <div class="main_container">
+  <div class="side_bars">
+    <h3>Suosituimmat lookit</h3>
+    {% for look in looks %}
+    <p><a href="/look/{{ look.id }}">{{ look.title }}</a> <br />
+    Meikkiartisti : <a href="/user/{{ look.user_id }}">{{ look.username }}</a>
+    </p>
+  {% endfor %}
+  </ul>
+  </div>
 
-  {% if session.username %}
-
-  {% else %}
-    <p>
-      Hyppää bämä maailmaan...
-      <br />
-	  <a href="/login">Olen jo bämä!</a> |
-	  <a href="/register">Muutu bämäksi tänään!</a>
-  {% endif %}
-  </p>
-
+<div class="middle_container">
   {% block content %}{% endblock %}
+</div>
+
+<div class="side_bars">
+  <h3>Käyttäjiä</h3>
+  <!-- Pitää tehä viel app.py puolele -->
+  {% for user in users %}
+  <p><img src="/profile_picture/{{ user.id }}" />
+  <a href="/user/{{ look.user_id }}">{{ look.username }}</a>
+  </p>
+  {% endfor %}
+</div>
+
+</div>
 
 </body>
 

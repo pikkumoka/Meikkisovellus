@@ -5,8 +5,10 @@
 {% block content %}
 
 <h2>Oletko varma lookin poistosta?</h2>
-  <p><b>Lookki -</b> {{ look.title }}</p>
-  <p>Et voi perua tätä toimintoa.</p>
+
+  <p><b>Lookki -</b> {{ look.title }}</br>
+  <img src="/image/{{ look.id }}" /></p>
+  <p>Et voi perua tätä toimintoa.</br></p>
   <form action="/remove_look/{{ look.id }}" method="post">
   <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
   <input type="submit" name="remove" value="Poista lookki">

@@ -42,14 +42,14 @@
   Kuvaus: <br />
   <textarea name="description" rows="8" cols="60" maxlength="1000" required >
 {{ look.description }}</textarea>
-  </p>
 
   <input type="hidden" name="look_id" value="{{ look.id }}" />
-  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" /></br>
   <input type="submit" value="Päivitä lookkia" />
   <a href="/look/{{ look.id }}">
   <button type="button">Mitätöi muutokset</button>
   </a>
+  </p>
 </form>
 
 {% endblock %}

@@ -1,8 +1,10 @@
 body {
-  margin: auto;
-  max-width: 50em;
+  padding: 50px;
   font-family: sans-serif;
   background-color: rgb(231, 113, 217);
+  background: url("../static/pictures/main_background.gif") no-repeat center center fixed;
+  background-size: 100% 100%;
+
 }
 
 h1 {
@@ -34,6 +36,54 @@ img {
     max-width: 300px;
     max-height: 150px;
     text-align: center;
+    margin: center;
+}
+
+form {
+    text-align: center;
+}
+
+form input{
+    margin: 0 10px;
+}
+
+.main_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.navigation_bars {
+    width: 20%;
+    justify-content: space-evenly;
+    margin: auto;
+}
+
+.side_bars {
+    background: url("../static/pictures/maybe_child.gif");
+    background-size: 100%;
+    padding: 0.2em 0.5em;
+    width: 20%;
+    margin: 1em;
+    justify-content: space-evenly;
+}
+
+.middle_container {
+    flex-direction: column;
+    width: 50%;
+    margin: 1em;
+    padding: 0.2em 0.5em;
+    justify-content: space-evenly;
+}
+
+.looks {
+    background: url("../static/pictures/TÄMÄ.gif");
+    background-size: 100% 100%;
+    width: 50%;
+    margin: auto;
+    padding: 0.2em 0.5em;
+    justify-content: space-evenly;
 }
 
 .look_images {
@@ -43,7 +93,12 @@ img {
 }
 
 .look {
-  border: 2px solid black;
-  margin: 1em;
+  margin: auto;
   padding: 0.2em 0.5em;
+  width: 35%;
+}
+
+.comments {
+    margin: auto;
+    width: 35%;
 }

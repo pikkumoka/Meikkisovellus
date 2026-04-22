@@ -33,11 +33,11 @@
     <option value="{{ class }}:{{ option }}">{{ option }}</option>
   {% endfor %}
   </select>
-  </p>
   {% endfor %}
 
-  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" /></br>
   <input type="submit" value="Luo lookki" />
+  </p>
 </form>
 
 {% endblock %}

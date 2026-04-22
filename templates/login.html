@@ -4,7 +4,8 @@
 
 {% block content %}
 
-<h2>Kirjaudu sisään</h2>
+<div class="navigation_bars">
+  <h2>Kirjaudu sisään</h2>
 <form action="/login" method="post">
   <p>
     Tunnus: <br />
@@ -12,14 +13,15 @@
   </p>
   <p>
     Salasana: <br />
-    <input type="password" name="password" />
-  </p>
+    <input type="password" name="password" /></br>
   <input type="submit" value="Kirjaudu" />
+  </p>
 </form>
 {% for message in get_flashed_messages() %}
 <p>
   <b>{{ message }}</b>
 </p>
 {% endfor %}
+</div>
 
 {% endblock %}

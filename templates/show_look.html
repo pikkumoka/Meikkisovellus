@@ -4,6 +4,8 @@
 
 {% block content %}
 
+<div class="look">
+
 <h2>{{ look.title }}</h2>
 
 {% if session.user_id == look.user_id %}
@@ -36,19 +38,23 @@
 </p>
 {% endif %}
 
+</div>
+
+<div class="comment">
 {% if session.user_id %}
 
-<form action="/new_comment" method="post">
 <p>
-	<b>Jätä kommentti:</b><br />
+	<b>Jätä kommentti:</b></p>
+<form action="/new_comment" method="post">
 	<textarea name="content" rows="5" cols="40" maxlength="500" required></textarea>
-</p>
 <input type="hidden" name="look_id" value="{{ look.id }}" />
 <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-<input type="submit" value="Lähetä" />
+<input type="submit" value="Lähetä" /> </br>
 </form>
 {% endif %}
+</div>
 
+<div class="comments">
 <p>
 	<b>Kommentit</b>
 </p>
@@ -64,7 +70,8 @@
     <a href="/remove_comment/{{ comment.id }}">Poista</a>
 </p>
 {% endif %}
-<hr />
 {% endfor %}
+
+</div>
 
 {% endblock %}
