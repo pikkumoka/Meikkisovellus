@@ -10,13 +10,13 @@ Nettisivu meikkilookkien jakamiseen ja arvosteluun.
 
 ♡ Käyttäjä näkee kaikki sovellukseen lisätyt lookit.
 
-♡ Käyttäjä pystyy etsimään lookkeja hakusanoilla (myöhemmin myös kategorioiden avulla).
+♡ Käyttäjä pystyy etsimään lookkeja hakusanoilla.
 
 ♡ Käyttäjäsivu näyttää, montako lookkia käyttäjä on luonut ja listan käyttäjän luomista lookeista.
 
 ♡ Käyttäjä pystyy valitsemaan lookille yhden tai useamman luokittelun (esim. arkimeikki tai juhlameikki ja lookin vaikeusateen.)
 
-♡ Käyttäjä pystyy antamaan toisille lookeille kommentteja ja oman arvion vaikeusasteesta. Lookeissa näytetään kommentit sekä vaikeusasteet. (Vaikeusaste toiminto kommenteissa ei vielä toteutettu)
+♡ Käyttäjä pystyy antamaan toisille lookeille kommentteja.
 
 Tässä pääasiallinen tietokohde on meikkilookit ja toissijainen tietokohde on komentti lookkeihin.
 
