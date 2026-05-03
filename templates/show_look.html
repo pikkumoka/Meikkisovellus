@@ -48,7 +48,7 @@
 <form action="/new_comment" method="post">
 	<textarea name="content" rows="5" cols="40" maxlength="500" required></textarea>
 <input type="hidden" name="look_id" value="{{ look.id }}" />
-<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}"><br>
 <input type="submit" value="Lähetä" /> </br>
 </form>
 {% endif %}

@@ -43,8 +43,12 @@ form {
     text-align: center;
 }
 
-form input{
-    margin: 0 10px;
+form input[type=submit]{
+    background-image: url("../static/pictures/button.gif");
+}
+
+button {
+    background-image: url("../static/pictures/button.gif");
 }
 
 .main_container {
@@ -60,15 +64,6 @@ form input{
     margin: auto;
 }
 
-.side_bars {
-    background: url("../static/pictures/maybe_child.gif");
-    background-size: 100%;
-    padding: 0.2em 0.5em;
-    width: 20%;
-    margin: 1em;
-    justify-content: space-evenly;
-}
-
 .middle_container {
     flex-direction: column;
     width: 50%;
@@ -78,7 +73,7 @@ form input{
 }
 
 .looks {
-    background: url("../static/pictures/TÄMÄ.gif");
+    background: url("../static/pictures/looks_background.gif");
     background-size: 100% 100%;
     width: 50%;
     margin: auto;

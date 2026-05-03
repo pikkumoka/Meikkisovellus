@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<h2>{{ user.username }}-bämän profiili</h2>
+<h2>Bämän {{ user.username }} profiili</h2>
 
 {% if session.user_id == user.id %}
 
@@ -12,7 +12,11 @@
 
 {% endif %}
 <p>
+	{% if user.profile_picture %}
 	<img src="/profile_picture/{{ user.id }}" />
+	{% else %}
+    <img src="/static/pictures/default_user.jpeg" />
+    {% endif %}
 </p>
 
 <p>
@@ -23,7 +27,7 @@
 
 <ul>
 	{% for look in looks %}
-	<li><a href="/look/{{ look.id }}">{{ look.title }}</a></li>
+	<a href="/look/{{ look.id }}">{{ look.title }}</a><br>
 	{% endfor %}
 </ul>
 
